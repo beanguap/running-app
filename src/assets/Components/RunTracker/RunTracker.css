@@ -1,0 +1,42 @@
+.run-tracker {
+    font-family: "Courier New", Courier, monospace;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+h1,
+h2 {
+    font-weight: normal;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
+}
+
+.recent-run-details {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+}
+
+.detail {
+    text-align: center;
+}
+
+.previous-runs {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.previous-runs th,
+.previous-runs td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+.previous-runs th {
+    background-color: #f2f2f2;
+}
