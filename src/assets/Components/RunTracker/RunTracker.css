@@ -6,13 +6,17 @@
     background-color: #f9f9f9;
     border: 1px solid #ddd;
     border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-h1,
-h2 {
+.run-tracker h1,
+.run-tracker h2 {
     font-weight: normal;
     border-bottom: 1px solid #ddd;
     padding-bottom: 10px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
 }
 
 .recent-run-details {
@@ -28,6 +32,7 @@ h2 {
 .previous-runs {
     width: 100%;
     border-collapse: collapse;
+    margin-top: 20px;
 }
 
 .previous-runs th,
@@ -39,4 +44,106 @@ h2 {
 
 .previous-runs th {
     background-color: #f2f2f2;
+}
+
+.edit-mode {
+    display: flex;
+    align-items: center;
+}
+
+.edit-mode input[type="range"] {
+    margin-right: 10px;
+}
+
+.edit-mode input[type="number"] {
+    width: 80px;
+    margin-right: 10px;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    padding: 5px;
+}
+
+.edit-icon {
+    margin-left: 10px;
+    cursor: pointer;
+    color: #007bff;
+    transition: color 0.3s ease;
+}
+
+.edit-icon:hover {
+    color: #0056b3;
+}
+
+.new-run-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.new-run-form input {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+}
+
+.new-run-form button {
+    padding: 10px;
+    border: none;
+    border-radius: 3px;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+}
+
+.new-run-form button:hover {
+    background-color: #0056b3;
+}
+
+@keyframes pencilJot {
+    0% {
+        transform: translate(0, 0) rotate(0deg);
+    }
+    25% {
+        transform: translate(2px, 2px) rotate(2deg);
+    }
+    50% {
+        transform: translate(-2px, -2px) rotate(-2deg);
+    }
+    75% {
+        transform: translate(2px, -2px) rotate(2deg);
+    }
+    100% {
+        transform: translate(0, 0) rotate(0deg);
+    }
+}
+
+.pencil-animation {
+    animation: pencilJot 0.5s ease;
+}
+
+@media (max-width: 768px) {
+    .run-tracker h1 {
+        font-size: 1.5em;
+    }
+    .recent-run-details {
+        flex-direction: column;
+        align-items: center;
+    }
+    .detail {
+        margin-bottom: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .run-tracker h1 {
+        font-size: 1.2em;
+    }
+    .previous-runs {
+        font-size: 0.9em;
+    }
+    .new-run-form button {
+        font-size: 0.9em;
+        padding: 8px 16px;
+    }
 }
