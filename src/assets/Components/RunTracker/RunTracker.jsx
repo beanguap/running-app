@@ -1,197 +1,67 @@
-import React, { useState } from "react";
-import { FaPencilAlt } from "react-icons/fa";
+import { useState, Suspense } from "react";
+import { Canvas, useLoader } from "@react-three/fiber";
+import { OrbitControls } from "@react-three/drei";
+import { ColladaLoader } from "three/examples/jsm/loaders/ColladaLoader";
+import html2canvas from "html2canvas";
 import "./RunTracker.css";
 
-const RunTracker = () => {
-  const [recentRun, setRecentRun] = useState({
-    dailyWater: 72,
-    weeklyDistance: 21,
-  });
-
-  const [previousRuns, setPreviousRuns] = useState([]);
-  const [isEditingWater, setIsEditingWater] = useState(false);
-  const [isEditingDistance, setIsEditingDistance] = useState(false);
-  const [dailyWaterInput, setDailyWaterInput] = useState(recentRun.dailyWater);
-  const [weeklyDistanceInput, setWeeklyDistanceInput] = useState(
-    recentRun.weeklyDistance,
+const TrackModel = () => {
+  const { scene } = useLoader(
+    ColladaLoader,
+    "/src/assets/running+track/model.dae",
   );
+  return <primitive object={scene} />;
+};
 
-  const [newRun, setNewRun] = useState({
-    date: "",
-    name: "",
-    time: "",
-    temp: "",
-    distance: "",
-    bpm: "",
-  });
+const RunTracker = () => {
+  const [laps, setLaps] = useState(0);
+  const [bpm, setBpm] = useState(0);
+  const [cadence, setCadence] = useState(0);
+  const [pace, setPace] = useState(0);
+  const [zoneAvg, setZoneAvg] = useState(0);
 
-  const handleWaterIntakeChange = (event) => {
-    setDailyWaterInput(event.target.value);
-  };
-
-  const handleWeeklyDistanceChange = (event) => {
-    setWeeklyDistanceInput(event.target.value);
-  };
-
-  const handleNewRunChange = (event) => {
-    const { name, value } = event.target;
-    setNewRun({ ...newRun, [name]: value });
-  };
-
-  const toggleEditModeWater = () => {
-    if (isEditingWater) {
-      setRecentRun({ ...recentRun, dailyWater: dailyWaterInput });
-    }
-    setIsEditingWater(!isEditingWater);
-  };
-
-  const toggleEditModeDistance = () => {
-    if (isEditingDistance) {
-      setRecentRun({ ...recentRun, weeklyDistance: weeklyDistanceInput });
-    }
-    setIsEditingDistance(!isEditingDistance);
-  };
-
-  const addNewRun = () => {
-    setPreviousRuns([...previousRuns, newRun]);
-    setNewRun({
-      date: "",
-      name: "",
-      time: "",
-      temp: "",
-      distance: "",
-      bpm: "",
+  const handleShare = () => {
+    html2canvas(document.body).then((canvas) => {
+      const link = document.createElement("a");
+      link.download = "run-tracker.png";
+      link.href = canvas.toDataURL();
+      link.click();
     });
   };
 
   return (
     <div className="run-tracker">
-      <h1>Recent Run</h1>
-      <div className="recent-run-details">
-        <div className="detail">
-          <h2>
-            Daily Water
-            <FaPencilAlt className="edit-icon" onClick={toggleEditModeWater} />
-          </h2>
-          {isEditingWater ? (
-            <div className="edit-mode scribble">
-              <input
-                type="range"
-                min="0"
-                max="200"
-                step="1"
-                value={dailyWaterInput}
-                onChange={handleWaterIntakeChange}
-              />
-              <input
-                type="number"
-                value={dailyWaterInput}
-                onChange={handleWaterIntakeChange}
-              />
-            </div>
-          ) : (
-            <p>{recentRun.dailyWater} oz</p>
-          )}
-        </div>
-        <div className="detail">
-          <h2>
-            Weekly Distance
-            <FaPencilAlt
-              className="edit-icon"
-              onClick={toggleEditModeDistance}
-            />
-          </h2>
-          {isEditingDistance ? (
-            <div className="edit-mode scribble">
-              <input
-                type="range"
-                min="0"
-                max="100"
-                step="1"
-                value={weeklyDistanceInput}
-                onChange={handleWeeklyDistanceChange}
-              />
-              <input
-                type="number"
-                value={weeklyDistanceInput}
-                onChange={handleWeeklyDistanceChange}
-              />
-            </div>
-          ) : (
-            <p>{recentRun.weeklyDistance} miles</p>
-          )}
-        </div>
+      <div className="track-layout">
+        <Canvas>
+          <Suspense fallback={null}>
+            <ambientLight intensity={0.5} />
+            <directionalLight position={[10, 10, 5]} intensity={1} />
+            <TrackModel />
+            <OrbitControls />
+          </Suspense>
+        </Canvas>
+        <div className="counter">Laps: {laps}</div>
+        <button className="share-button" onClick={handleShare}>
+          Share
+        </button>
       </div>
-      <h2>Previous Runs</h2>
-      <table className="previous-runs">
-        <thead>
-          <tr>
-            <th>Date</th>
-            <th>Name</th>
-            <th>Time</th>
-            <th>Temp</th>
-            <th>Distance</th>
-            <th>BPM</th>
-          </tr>
-        </thead>
-        <tbody>
-          {previousRuns.map((run, index) => (
-            <tr key={index} className="scribble">
-              <td>{run.date}</td>
-              <td>{run.name}</td>
-              <td>{run.time}</td>
-              <td>{run.temp}</td>
-              <td>{run.distance}</td>
-              <td>{run.bpm}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      <h2>Add New Run</h2>
-      <div className="new-run-form">
-        <input
-          type="text"
-          name="date"
-          placeholder="Date"
-          value={newRun.date}
-          onChange={handleNewRunChange}
-        />
-        <input
-          type="text"
-          name="name"
-          placeholder="Name"
-          value={newRun.name}
-          onChange={handleNewRunChange}
-        />
-        <input
-          type="text"
-          name="time"
-          placeholder="Time"
-          value={newRun.time}
-          onChange={handleNewRunChange}
-        />
-        <input
-          type="text"
-          name="temp"
-          placeholder="Temp"
-          value={newRun.temp}
-          onChange={handleNewRunChange}
-        />
-        <input
-          type="text"
-          name="distance"
-          placeholder="Distance"
-          value={newRun.distance}
-          onChange={handleNewRunChange}
-        />
-        <input
-          type="text"
-          name="bpm"
-          placeholder="BPM"
-          value={newRun.bpm}
-          onChange={handleNewRunChange}
-        />
-        <button onClick={addNewRun}>Add Run</button>
+      <div className="info-container">
+        <div className="info-box">
+          <h3>BPM</h3>
+          <p>{bpm}</p>
+        </div>
+        <div className="info-box">
+          <h3>Cadence</h3>
+          <p>{cadence}</p>
+        </div>
+        <div className="info-box">
+          <h3>Pace</h3>
+          <p>{pace}</p>
+        </div>
+        <div className="info-box">
+          <h3>Zone Avg</h3>
+          <p>{zoneAvg}</p>
+        </div>
       </div>
     </div>
   );
