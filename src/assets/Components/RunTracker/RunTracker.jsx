@@ -1,36 +1,25 @@
-import React, { useState, useRef, Suspense } from "react";
-import { Canvas, useFrame, useLoader, useThree } from "@react-three/fiber";
-import { OrbitControls, PerspectiveCamera, Html } from "@react-three/drei";
+import { useState, useRef, Suspense } from "react";
+import { Canvas, useLoader } from "@react-three/fiber";
+import { OrbitControls } from "@react-three/drei";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import { toPng } from "html-to-image";
 import { Share2, Heart, Zap, FastForward } from "lucide-react";
 import "./RunTracker.css";
 
-const Track = () => {
-  const gltf = useLoader(GLTFLoader, "/400m_track.c4d/scene.gltf");
-  const ref = useRef();
-  const { viewport } = useThree();
-
-  useFrame((state, delta) => {
-    ref.current.rotation.y += delta * 0.1;
-  });
-
-  const scale = Math.min(viewport.width, viewport.height) * 0.15;
-
-  return (
-    <primitive object={gltf.scene} ref={ref} scale={[scale, scale, scale]} />
-  );
-};
-
 const InfoContainer = ({ icon: Icon, label, value }) => (
   <div className="info-container">
-    <Icon className="info-icon" />
+    <Icon className="info-icon" size={24} />
     <div className="info-content">
       <span className="info-label">{label}</span>
       <span className="info-value">{value}</span>
     </div>
   </div>
 );
+
+const Track = () => {
+  const gltf = useLoader(GLTFLoader, "/400m_track.c4d/scene.gltf");
+  return <primitive object={gltf.scene} scale={[0.01, 0.01, 0.01]} />;
+};
 
 const RunTracker = () => {
   const [miles, setMiles] = useState("");
@@ -40,8 +29,6 @@ const RunTracker = () => {
   const handleMilesChange = (event) => {
     const inputMiles = event.target.value;
     setMiles(inputMiles);
-
-    // Calculate laps based on miles (1 lap = 400m = 0.2485 miles)
     const calculatedLaps = Math.floor(inputMiles / 0.2485);
     setLaps(calculatedLaps);
   };
@@ -50,7 +37,6 @@ const RunTracker = () => {
     if (componentRef.current === null) {
       return;
     }
-
     try {
       const dataUrl = await toPng(componentRef.current, { quality: 0.95 });
       const link = document.createElement("a");
@@ -65,22 +51,21 @@ const RunTracker = () => {
   return (
     <div className="run-tracker" ref={componentRef}>
       <div className="track-container">
-        <Canvas>
-          <PerspectiveCamera makeDefault position={[0, 5, 10]} />
+        <Canvas camera={{ position: [0, 5, 10], fov: 50 }}>
           <ambientLight intensity={0.5} />
           <pointLight position={[10, 10, 10]} />
-          <Suspense fallback={<Html>Loading 3D model...</Html>}>
+          <Suspense fallback={null}>
             <Track />
           </Suspense>
-          <OrbitControls enableZoom={false} enablePan={false} />
+          <OrbitControls />
         </Canvas>
         <div className="lap-counter">
           <span className="lap-count">{laps}</span>
           <span className="lap-label">Laps</span>
         </div>
         <button className="share-button" onClick={handleShare}>
-          <Share2 size={24} />
-          Share
+          <Share2 size={18} />
+          <span>Share</span>
         </button>
       </div>
       <div className="miles-input">

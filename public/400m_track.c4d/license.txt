@@ -1,0 +1,11 @@
+Model Information:
+* title:	400m track.c4d
+* source:	https://sketchfab.com/3d-models/400m-trackc4d-8f768068243249c5a70d29a29bf102c5
+* author:	paultom (https://sketchfab.com/paultom)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "400m track.c4d" (https://sketchfab.com/3d-models/400m-trackc4d-8f768068243249c5a70d29a29bf102c5) by paultom (https://sketchfab.com/paultom) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

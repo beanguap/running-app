@@ -1,15 +1,15 @@
 :root {
     --bg-color: #121212;
-    --text-color: #e0e0e0;
-    --accent-color: #39ff14;
-    --secondary-color: #2c2c2c;
-    --tertiary-color: #3a3a3a;
+    --surface-color: #1e1e1e;
+    --primary-color: #39ff14;
+    --text-color: #ffffff;
+    --text-secondary: #b3b3b3;
 }
 
 body {
     background-color: var(--bg-color);
     color: var(--text-color);
-    font-family: "Arial", sans-serif;
+    font-family: "Helvetica Neue", Arial, sans-serif;
     margin: 0;
     padding: 0;
 }
@@ -24,11 +24,11 @@ body {
     position: relative;
     width: 100%;
     height: 0;
-    padding-bottom: 75%; /* Maintain 4:3 aspect ratio */
-    background-color: var(--secondary-color);
-    border-radius: 10px;
+    padding-bottom: 75%;
+    background-color: var(--surface-color);
+    border-radius: 12px;
     overflow: hidden;
-    margin-bottom: 20px;
+    margin-bottom: 24px;
 }
 
 .track-container canvas {
@@ -41,11 +41,11 @@ body {
 
 .lap-counter {
     position: absolute;
-    top: 20px;
-    right: 20px;
-    background-color: rgba(0, 0, 0, 0.7);
-    padding: 10px;
-    border-radius: 5px;
+    top: 16px;
+    left: 16px;
+    background-color: rgba(30, 30, 30, 0.8);
+    padding: 12px;
+    border-radius: 8px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -55,28 +55,31 @@ body {
 .lap-count {
     font-size: 2.5rem;
     font-weight: bold;
-    color: var(--accent-color);
+    color: var(--primary-color);
 }
 
 .lap-label {
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     text-transform: uppercase;
+    color: var(--text-secondary);
 }
 
 .share-button {
     position: absolute;
-    bottom: 20px;
-    right: 20px;
-    background-color: var(--accent-color);
+    bottom: 16px;
+    right: 16px;
+    background-color: var(--primary-color);
     color: var(--bg-color);
     border: none;
     padding: 10px 20px;
-    border-radius: 5px;
+    border-radius: 24px;
     cursor: pointer;
     display: flex;
     align-items: center;
-    gap: 5px;
+    gap: 8px;
     font-weight: bold;
+    text-transform: uppercase;
+    font-size: 0.9rem;
     transition: all 0.3s ease;
     z-index: 10;
 }
@@ -86,49 +89,49 @@ body {
 }
 
 .miles-input {
-    margin-bottom: 20px;
+    margin-bottom: 24px;
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 16px;
 }
 
 .miles-input label {
     font-size: 1rem;
-    color: var(--text-color);
+    color: var(--text-secondary);
 }
 
 .miles-input input {
-    background-color: var(--tertiary-color);
-    border: 1px solid var(--accent-color);
+    background-color: var(--surface-color);
+    border: 1px solid var(--text-secondary);
     color: var(--text-color);
     padding: 8px 12px;
-    border-radius: 5px;
+    border-radius: 4px;
     font-size: 1rem;
     width: 100px;
 }
 
 .miles-input input:focus {
     outline: none;
-    box-shadow: 0 0 0 2px var(--accent-color);
+    border-color: var(--primary-color);
 }
 
 .info-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 20px;
+    gap: 16px;
 }
 
 .info-container {
-    background-color: var(--tertiary-color);
-    border-radius: 10px;
-    padding: 15px;
+    background-color: var(--surface-color);
+    border-radius: 8px;
+    padding: 16px;
     display: flex;
     align-items: center;
-    gap: 15px;
+    gap: 12px;
 }
 
 .info-icon {
-    color: var(--accent-color);
+    color: var(--primary-color);
 }
 
 .info-content {
@@ -137,16 +140,15 @@ body {
 }
 
 .info-label {
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     text-transform: uppercase;
-    color: var(--text-color);
-    opacity: 0.7;
+    color: var(--text-secondary);
 }
 
 .info-value {
     font-size: 1.2rem;
     font-weight: bold;
-    color: var(--accent-color);
+    color: var(--text-color);
 }
 
 @media (max-width: 600px) {
@@ -157,6 +159,25 @@ body {
     .miles-input {
         flex-direction: column;
         align-items: flex-start;
+    }
+
+    .track-container {
+        position: relative;
+        width: 100%;
+        height: 0;
+        padding-bottom: 75%; /* This maintains a 4:3 aspect ratio */
+        background-color: var(--surface-color);
+        border-radius: 12px;
+        overflow: hidden;
+        margin-bottom: 24px;
+    }
+
+    .track-container > canvas {
+        position: absolute !important;
+        top: 0;
+        left: 0;
+        width: 100% !important;
+        height: 100% !important;
     }
 
     .miles-input input {
