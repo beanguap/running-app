@@ -1,5 +1,3 @@
-Based on the template you provided for the "Airport-Flight-App," here’s a version tailored for your running app:
-
 ---
 
 ## 🏃 RunTracker App
